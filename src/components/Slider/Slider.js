@@ -6,17 +6,18 @@ import Pagination from '../Pagination/Pagination';
 
 function Slider({ slides }) {
 
+    let startingX = 0;
     const [active, setActive] = React.useState(1);
     const [transition, setTransition] = React.useState('all .3s');
 
     const onClickPrev = () => {
         setTransition('all .3s');
-        setActive(active - 1);
+        setActive(active === 0 ? active : active - 1);
     }
 
     const onClickNext = () => {
         setTransition('all .3s');
-        setActive(active + 1);
+        setActive(active === slides.length - 1 ? active : active + 1);
     }
 
     const onTransition = () => {
@@ -28,6 +29,21 @@ function Slider({ slides }) {
         } else if (active === 0) {
             setActive(slides.length - 2);
             setTransition('none');
+        }
+    }
+
+    const onTouchStart = (event) => {
+        startingX = event.touches[0].clientX;
+    }
+
+    const onTouchEnd = (event) => {
+        let change = startingX - event.changedTouches[0].clientX;
+
+        if (change > 0) {          // swipe right (next slide) ...
+            onClickNext();
+
+        } else if (change < 0) {   // swipe left (prev slide) ...
+            onClickPrev();
         }
     }
 
@@ -45,6 +61,8 @@ function Slider({ slides }) {
                         item={item}
                         transform={`translateX(-${active * 100}%)`}
                         transition={transition}
+                        touchStart={onTouchStart}
+                        touchEnd={onTouchEnd}
                     />
                 )
             })}
