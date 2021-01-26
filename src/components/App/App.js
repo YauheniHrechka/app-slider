@@ -27,7 +27,9 @@ function App() {
 
   return (
     <div className="app">
-      <Slider slides={slides} />
+      {slides.length &&
+        <Slider slides={slides} />
+      }
     </div>
   );
 }

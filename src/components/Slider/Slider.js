@@ -2,6 +2,7 @@ import React from 'react';
 import './Slider.css';
 
 import Slide from '../Slide/Slide';
+import Pagination from '../Pagination/Pagination';
 
 function Slider({ slides }) {
 
@@ -30,6 +31,11 @@ function Slider({ slides }) {
         }
     }
 
+    const onClickDotItem = (event) => {
+        setTransition('all .3s');
+        setActive(+event.target.getAttribute('data-item'));
+    }
+
     return (
         <div className="slider" onTransitionEnd={onTransition}>
             {slides.map((item, index) => {
@@ -42,6 +48,11 @@ function Slider({ slides }) {
                     />
                 )
             })}
+            <Pagination
+                amountDots={slides.length - 2}
+                active={active}
+                paginationClick={onClickDotItem}
+            />
             <button className="btn btn-prev" onClick={onClickPrev}>&#8249;</button>
             <button className="btn btn-next" onClick={onClickNext}>&#8250;</button>
         </div>
