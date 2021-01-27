@@ -4,10 +4,10 @@ import './Slider.css';
 import Slide from '../Slide/Slide';
 import Pagination from '../Pagination/Pagination';
 
-function Slider({ slides }) {
+const Slider = ({ slides, startIndexSlide }) => {
 
     let startingX = 0;
-    const [active, setActive] = React.useState(1);
+    const [active, setActive] = React.useState(startIndexSlide);
     const [transition, setTransition] = React.useState('all .3s');
 
     const onClickPrev = () => {

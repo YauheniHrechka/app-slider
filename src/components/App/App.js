@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 
 import Slider from '../Slider/Slider';
 
-function App() {
+const App = ({ startIndexSlide }) => {
 
   const [slides, setSlides] = React.useState([]);
 
@@ -28,10 +29,21 @@ function App() {
   return (
     <div className="app">
       {slides.length &&
-        <Slider slides={slides} />
+        <Slider
+          slides={slides}
+          startIndexSlide={startIndexSlide + 1}
+        />
       }
     </div>
   );
+}
+
+App.propTypes = {
+  startIndexSlide: PropTypes.number
+}
+
+App.defaultProps = {
+  startIndexSlide: 0
 }
 
 export default App;

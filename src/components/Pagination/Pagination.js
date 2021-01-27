@@ -1,7 +1,7 @@
 import React from 'react';
 import './Pagination.css';
 
-function Pagination({ amountDots, active, paginationClick }) {
+const Pagination = ({ amountDots, active, paginationClick }) => {
 
     return (
         <div className="dots">

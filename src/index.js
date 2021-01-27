@@ -5,7 +5,9 @@ import App from './components/App/App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App
+      startIndexSlide={0}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );

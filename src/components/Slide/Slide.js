@@ -1,7 +1,7 @@
 import React from 'react';
 import './Slide.css';
 
-function Slide({ item: { url, alt }, transform, transition, touchStart, touchEnd }) {
+const Slide = ({ item: { url, alt }, transform, transition, touchStart, touchEnd }) => {
 
     return (
         <div
