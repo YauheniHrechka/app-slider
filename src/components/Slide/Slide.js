@@ -1,5 +1,5 @@
 import React from 'react';
-import './Slide.css';
+import './Slide.scss';
 
 import { Context } from '../context';
 

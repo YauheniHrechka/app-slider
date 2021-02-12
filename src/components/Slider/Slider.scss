@@ -19,13 +19,13 @@
     top: 50%;
     transform: translateY(-50%);
     transition: .3s;
-}
-
-.btn:hover {
-    background: #fff;
-    color: #333;
-    opacity: 0.4;
     cursor: pointer;
+
+    &:hover {
+        background: #fff;
+        color: #333;
+        opacity: 0.4;    
+    }
 }
 
 .btn-prev {

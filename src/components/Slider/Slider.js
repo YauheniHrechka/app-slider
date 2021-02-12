@@ -1,5 +1,5 @@
 import React from 'react';
-import './Slider.css';
+import './Slider.scss';
 
 import { Context } from '../context';
 import reducer from '../reducer';
