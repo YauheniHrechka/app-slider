@@ -28,7 +28,7 @@ const App = ({ startIndexSlide }) => {
 
   return (
     <div className="app">
-      {slides.length &&
+      {slides.length > 0 &&
         <Slider
           slides={slides}
           startIndexSlide={startIndexSlide + 1}

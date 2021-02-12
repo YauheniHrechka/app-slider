@@ -1,7 +1,11 @@
 import React from 'react';
 import './Slide.css';
 
-const Slide = ({ item: { url, alt }, transform, transition, touchStart, touchEnd }) => {
+import { Context } from '../context';
+
+const Slide = ({ item: { url, alt }, transform, transition }) => {
+
+    const { onTouchStart, onTouchEnd } = React.useContext(Context);
 
     return (
         <div
@@ -10,8 +14,8 @@ const Slide = ({ item: { url, alt }, transform, transition, touchStart, touchEnd
                 transform: transform,
                 transition: transition
             }}
-            onTouchStart={touchStart}
-            onTouchEnd={touchEnd}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
         >
             <img src={url} alt={alt} />
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import './Slider.css';
 
+import { Context } from '../context';
 import reducer from '../reducer';
 import { prevSlide, nextSlide, firstSlide, lastSlide, chooseSlide } from '../actions';
 
@@ -9,17 +10,18 @@ import Pagination from '../Pagination/Pagination';
 
 const Slider = ({ slides, startIndexSlide }) => {
 
-    let startingX, activeDote;
+    let startingX;
 
     const [state, dispatch] = React.useReducer(reducer, {
         active: startIndexSlide,
+        activeDot: startIndexSlide,
         transition: 'all .3s'
     });
 
-    const { active, transition } = state;
+    const { active, activeDot, transition } = state;
 
     const onClickPrev = () => {
-        dispatch(prevSlide(active));
+        dispatch(prevSlide(active, slides));
     }
 
     const onClickNext = () => {
@@ -46,46 +48,43 @@ const Slider = ({ slides, startIndexSlide }) => {
             dispatch(nextSlide(active, slides));
 
         } else if (change < 0) {   // swipe left (prev slide) ...
-            dispatch(prevSlide(active));
+            dispatch(prevSlide(active, slides));
         }
     }
 
     const onClickDotItem = (event) => {
-        dispatch(chooseSlide(+event.target.getAttribute('data-item')));
+        dispatch(chooseSlide(+event.target.getAttribute('data-item'), slides));
     }
 
-    if (active === slides.length - 1) {
-        activeDote = 1;
-    } else if (active === 0) {
-        activeDote = slides.length - 2;
-    } else {
-        activeDote = active;
-    }
+    const generateDotItems = React.useCallback(() => {
+        return new Array(slides.length - 2).fill(null);
+    }, [slides]);
 
     return (
-        <>
-            <div className="slider" onTransitionEnd={onTransition}>
-                {slides.map((item, index) => {
-                    return (
-                        <Slide
-                            key={`${item.id}-${index}`}
-                            item={item}
-                            transform={`translateX(-${active * 100}%)`}
-                            transition={transition}
-                            touchStart={onTouchStart}
-                            touchEnd={onTouchEnd}
-                        />
-                    )
-                })}
-                <Pagination
-                    amountDots={slides.length - 2}
-                    active={activeDote}
-                    paginationClick={onClickDotItem}
-                />
-            </div>
-            <button className="btn btn-prev" onClick={onClickPrev}>&#8249;</button>
-            <button className="btn btn-next" onClick={onClickNext}>&#8250;</button>
-        </>
+        <Context.Provider value={{
+            onTouchStart, onTouchEnd, onClickDotItem
+        }} >
+            <>
+                <div className="slider" onTransitionEnd={onTransition}>
+                    {slides.map((item, index) => {
+                        return (
+                            <Slide
+                                key={`${item.id}-${index}`}
+                                item={item}
+                                transform={`translateX(-${active * 100}%)`}
+                                transition={transition}
+                            />
+                        )
+                    })}
+                    <Pagination
+                        getDots={generateDotItems}
+                        active={activeDot}
+                    />
+                </div>
+                <button className="btn btn-prev" onClick={onClickPrev}>&#8249;</button>
+                <button className="btn btn-next" onClick={onClickNext}>&#8250;</button>
+            </>
+        </Context.Provider>
     )
 }
 

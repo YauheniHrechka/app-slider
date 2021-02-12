@@ -1,17 +1,28 @@
 import React from 'react';
 import './Pagination.css';
 
-const Pagination = ({ amountDots, active, paginationClick }) => {
+import { Context } from '../context';
+
+const Pagination = ({ getDots, active }) => {
+
+    const { onClickDotItem } = React.useContext(Context);
+    const [dots, setDots] = React.useState([]);
+
+    React.useEffect(() => {
+
+        setDots(getDots());
+
+    }, [getDots]);
 
     return (
         <div className="dots">
-            {Array(amountDots).fill(null).map((item, index) => {
+            {dots.map((item, index) => {
                 return (
                     <div
                         key={index}
                         data-item={index + 1}
                         className={`dot-item ${index + 1 === active ? 'active' : ''}`}
-                        onClick={paginationClick}
+                        onClick={onClickDotItem}
                     ></div>
                 )
             })}
